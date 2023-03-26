@@ -1,0 +1,91 @@
+<svg:g>
+  <foreignObject
+    [attr.height]="50"
+    [attr.width]="50"
+    [attr.x]="this.squareRoomService.AB.inputPositionPoint.x"
+    [attr.y]="this.squareRoomService.AB.inputPositionPoint.y"
+    attr.transform="
+      rotate(
+        {{ squareRoomService.AB.getInputVector(10).angle }},
+        {{ squareRoomService.AB.inputPositionPoint.x }},
+        {{ squareRoomService.AB.inputPositionPoint.y }}
+      )
+    ">
+
+    <input #inputAB id="inputAB" type="text" [value]="squareRoomService.AB.length"
+      (change)="squareRoomService.BC.length=+inputBC.value;">
+  </foreignObject>
+  <foreignObject
+    [attr.height]="50"
+    [attr.width]="50"
+    [attr.x]="this.squareRoomService.BC.inputPositionPoint.x"
+    [attr.y]="this.squareRoomService.BC.inputPositionPoint.y"
+    attr.transform="
+      rotate(
+        {{ squareRoomService.BC.getInputVector(10).angle }},
+        {{ squareRoomService.BC.inputPositionPoint.x }},
+        {{ squareRoomService.BC.inputPositionPoint.y }}
+      )
+    ">
+    <input #inputBC id="inputBC" type="text" [value]="squareRoomService.BC.length"
+      (change)="squareRoomService.BC.length=+inputBC.value;">
+  </foreignObject>
+  <foreignObject
+    [attr.height]="50"
+    [attr.width]="50"
+    [attr.x]="this.squareRoomService.CD.inputPositionPoint.x"
+    [attr.y]="this.squareRoomService.CD.inputPositionPoint.y"
+    attr.transform="
+      rotate(
+        {{ squareRoomService.CD.getInputVector(10).angle }},
+        {{ squareRoomService.CD.inputPositionPoint.x }},
+        {{ squareRoomService.CD.inputPositionPoint.y }}
+      )
+    ">
+    <input #inputCD id="inputCD" type="text" [value]="squareRoomService.CD.length"
+      (change)="squareRoomService.CD.length=+inputCD.value;">
+  </foreignObject>
+  <foreignObject
+    [attr.height]="50"
+    [attr.width]="50"
+    [attr.x]="this.squareRoomService.DA.inputPositionPoint.x"
+    [attr.y]="this.squareRoomService.DA.inputPositionPoint.y"
+    attr.transform="
+      rotate(
+        {{ squareRoomService.DA.getInputVector(10).angle }},
+        {{ squareRoomService.DA.inputPositionPoint.x }},
+        {{ squareRoomService.DA.inputPositionPoint.y }}
+      )
+    ">
+    <input #inputDA id="inputDA" type="text" [value]="squareRoomService.DA.length"
+      (change)="squareRoomService.DA.length=+inputDA.value;">
+  </foreignObject>
+  <path attr.d="{{squareRoomService.rulerA}}" stroke="black" fill="none"></path>
+  <path attr.d="{{squareRoomService.rulerB}}" stroke="black" fill="none"></path>
+  <path attr.d="{{squareRoomService.rulerC}}" stroke="black" fill="none"></path>
+  <path attr.d="{{squareRoomService.rulerD}}" stroke="black" fill="none"></path>
+</svg:g>
+<!-- <svg>
+  <g>
+    <path attr.d="{{ squareRoomService.rulerA }}" stroke="black" fill="none"></path>
+    <text attr.x="{{ squareRoomService.AB.inputPositionPoint.x }}" attr.y="{{ squareRoomService.AB.inputPositionPoint.y }}"
+          attr.transform="rotate({{ squareRoomService.AB.getInputVector(10).angle }}, {{ squareRoomService.AB.inputPositionPoint.x }}, {{ squareRoomService.AB.inputPositionPoint.y }})">
+      {{ squareRoomService.AB.length }}
+    </text>
+    <path attr.d="{{ squareRoomService.rulerB }}" stroke="black" fill="none"></path>
+    <text attr.x="{{ squareRoomService.BC.getInputVector(10).point.x }}" attr.y="{{ squareRoomService.BC.getInputVector(10).point.y }}"
+          attr.transform="rotate({{ squareRoomService.BC.getInputVector(10).angle }}, {{ squareRoomService.BC.getInputVector(10).point.x }}, {{ squareRoomService.BC.getInputVector(10).point.y }})">
+      {{ squareRoomService.BC.length }}
+    </text>
+    <path attr.d="{{ squareRoomService.rulerC }}" stroke="black" fill="none"></path>
+    <text attr.x="{{ squareRoomService.CD.getInputVector(10).point.x }}" attr.y="{{ squareRoomService.CD.getInputVector(10).point.y }}"
+          attr.transform="rotate({{ squareRoomService.CD.getInputVector(10).angle }}, {{ squareRoomService.CD.getInputVector(10).point.x }}, {{ squareRoomService.CD.getInputVector(10).point.y }})">
+      {{ squareRoomService.CD.length }}
+    </text>
+    <path attr.d="{{ squareRoomService.rulerD }}" stroke="black" fill="none"></path>
+    <text attr.x="{{ squareRoomService.DA.getInputVector(10).point.x }}" attr.y="{{ squareRoomService.DA.getInputVector(10).point.y }}"
+          attr.transform="rotate({{ squareRoomService.DA.getInputVector(10).angle }}, {{ squareRoomService.DA.getInputVector(10).point.x }}, {{ squareRoomService.DA.getInputVector(10).point.y }})">
+      {{ squareRoomService.DA.length }}
+    </text>
+  </g>
+</svg> -->
