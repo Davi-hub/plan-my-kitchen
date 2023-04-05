@@ -15,4 +15,13 @@ export class HelpersService {
     let m = new Point(x, y);
     return m;
   }
+
+  getParallelLine(distance: number, line: Line) {
+    let vector = new Point(line.n.x, line.n.y);
+    vector.length = distance;
+    let P1p: paper.Point = new Point(line.P1.x + vector.x, line.P1.y - vector.y);
+    let P2p: paper.Point = new Point(line.P2.x + vector.x, line.P2.y - vector.y);
+    let parallelLine = new Line(P2p, P1p);
+    return parallelLine;
+  }
 }

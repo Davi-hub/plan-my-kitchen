@@ -1,6 +1,9 @@
 <svg:g id="svgEl" #svgEl>
-  <circle attr.cx="{{squareRoomService.A.x}}" attr.cy="{{squareRoomService.A.y}}" r="8" (pointerdown)="downHandlePoints($event, squareRoomService.A)" />
-  <circle attr.cx="{{squareRoomService.B.x}}" attr.cy="{{squareRoomService.B.y}}" r="8" (pointerdown)="downHandlePoints($event, squareRoomService.B)" />
-  <circle attr.cx="{{squareRoomService.C.x}}" attr.cy="{{squareRoomService.C.y}}" r="8" (pointerdown)="downHandlePoints($event, squareRoomService.C)" />
-  <circle attr.cx="{{squareRoomService.D.x}}" attr.cy="{{squareRoomService.D.y}}" r="8" (pointerdown)="downHandlePoints($event, squareRoomService.D)" />
+  <circle *ngFor="let pointInService of squareRoomService.pointArray" attr.cx="{{pointInService.x}}" attr.cy="{{pointInService.y}}" r="8"
+  draggable="true"
+  (mousedown)="onMouseDown($event, pointInService)"
+  (mouseup)="onMouseUp()"
+  (touchstart)="onTouchStart($event, pointInService)"
+  (touchend)="onTouchEnd()"
+  #image />
 </svg:g>

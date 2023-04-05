@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Wall } from 'src/app/classes/wall';
 import { SquareRoomService } from '../square-room.service';
 
 @Component({
@@ -6,50 +7,13 @@ import { SquareRoomService } from '../square-room.service';
   templateUrl: './square-room-rulers.component.html',
   styleUrls: ['./square-room-rulers.component.css']
 })
-export class SquareRoomRulersComponent implements OnInit {
+export class SquareRoomRulersComponent implements AfterViewInit{
+  @Input() walls!: Wall[];
 
-  constructor(public squareRoomService: SquareRoomService) { }
+  constructor(public squareRoomService: SquareRoomService, private cdr: ChangeDetectorRef) { }
 
-  ngOnInit(): void {
-    this.squareRoomService.drawRulers();
+  ngAfterViewInit(): void {
+      this.cdr.detectChanges();
   }
 
-  startDrag(event: MouseEvent, target: any, wall: string) {
-    event.preventDefault();
-
-    const startX = event.clientX;
-    const startY = event.clientY;
-    const origX = target.getAttributeNS(null, "x");
-    const origY = target.getAttributeNS(null, "y");
-
-    const drag = (event: MouseEvent) => {
-      const x = origX + event.clientX - startX;
-      const y = origY + event.clientY - startY;
-      target.setAttributeNS(null, "x", x);
-      target.setAttributeNS(null, "y", y);
-
-      switch (wall) {
-        case 'AB':
-          this.squareRoomService.AB.length = +target.getAttributeNS(null, "width");
-          break;
-        case 'BC':
-          this.squareRoomService.BC.length = +target.getAttributeNS(null, "height");
-          break;
-        case 'CD':
-          this.squareRoomService.CD.length = +target.getAttributeNS(null, "width");
-          break;
-        case 'DA':
-          this.squareRoomService.DA.length = +target.getAttributeNS(null, "height");
-          break;
-      }
-    };
-
-    const endDrag = (event: MouseEvent) => {
-      document.removeEventListener("mousemove", drag);
-      document.removeEventListener("mouseup", endDrag);
-    };
-
-    document.addEventListener("mousemove", drag);
-    document.addEventListener("mouseup", endDrag);
-  }
 }

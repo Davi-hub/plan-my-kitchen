@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Point } from 'paper/dist/paper-core';
+import { Subject } from 'rxjs';
 import { Line } from '../classes/line';
 import { HelpersService } from '../shared/helpers.service';
 
@@ -6,6 +8,7 @@ import { HelpersService } from '../shared/helpers.service';
   providedIn: 'root'
 })
 export class SquareRoomService {
+  pointArray = [new Point(100,100),new Point(600,100),new Point(600,600),new Point(350,850),new Point(100,600)]
   A!: paper.Point; B!: paper.Point; C!: paper.Point; D!: paper.Point;
   AB!: Line; BC!: Line; CD!: Line; DA!: Line;
   outerA!: paper.Point; outerB!: paper.Point; outerC!: paper.Point; outerD!: paper.Point;
@@ -16,6 +19,8 @@ export class SquareRoomService {
   CDLength = 500;
   DALength = 500;
   wallWidth = 10;
+  reDrawSubject = new Subject();
+
 
   constructor(private helpersService: HelpersService) { }
 
@@ -32,10 +37,10 @@ export class SquareRoomService {
     this.drawRulers();
   }
   drawWalls() {
-    this.AB = new Line(this.A, this.B, "AB");
-    this.BC = new Line(this.B, this.C, "BC");
-    this.CD = new Line(this.C, this.D, "CD");
-    this.DA = new Line(this.D, this.A, "DA");
+    this.AB = new Line(this.A, this.B);
+    this.BC = new Line(this.B, this.C);
+    this.CD = new Line(this.C, this.D);
+    this.DA = new Line(this.D, this.A);
     this.getAllIntersection();
     this.drawWallA();
     this.drawWallB();
