@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit } from '@angular/core';
 import { Wall } from 'src/app/classes/wall';
 import { RoomService } from '../room.service';
 
@@ -18,6 +18,21 @@ export class RulersComponent implements AfterViewInit{
 
   onClickInput(wall: Wall) {
     wall.isInputMode = true;
+  }
+
+  onBlurInput(wall: Wall) {
+    wall.isInputMode = false;
+  }
+
+  onClose(wall: Wall) {
+    wall.isInputMode = false;
+  }
+
+  onDone(i: number, input: HTMLInputElement) {
+    let choosenPoint = this.roomService.pointArray[i-1];
+    this.roomService.pointArray[i] = choosenPoint.clone()
+      .add(this.walls[i].innerLine.v.normalize().multiply(+input.value));
+    this.roomService.reDrawSubject.next("");
   }
 
 }

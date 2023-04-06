@@ -1,11 +1,10 @@
-import { Point } from "paper/dist/paper-core";
 import { Line } from "./line";
 
 export class Ruler {
   inputPositionPoint;
 
   constructor(private baseLine: Line) {
-    this.inputPositionPoint = this.getInputVector(10).point;
+    this.inputPositionPoint = this.getInputVector(35, 25).point;
   }
 
   drawRuler(width: number){
@@ -34,13 +33,13 @@ export class Ruler {
     return ruler;
   }
 
-  getInputVector(width:10) {
+  getInputVector(width: number, space: number) {
     let vector = this.baseLine.n;
-    vector.length = width+27;
+    vector.length = width;
     let p: paper.Point = this.baseLine.P1.clone().add(vector);
 
     let vector2 = this.baseLine.v;
-    vector2.length = (this.baseLine.length/2 - 25);
+    vector2.length = (this.baseLine.length/2 - space);
     let inputPoint: paper.Point = p.clone().add(vector2);
     return {point: inputPoint, angle: vector2.angle};
   }

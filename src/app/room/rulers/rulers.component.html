@@ -1,22 +1,21 @@
 <svg:g>
-  <foreignObject *ngFor="let wall of walls" [attr.height]="125" [attr.width]="50" [attr.x]="wall.ruler.inputPositionPoint.x"
-    [attr.y]="wall.ruler.inputPositionPoint.y" attr.transform="
+  <foreignObject *ngFor="let wall of walls, let i = index" [attr.height]="125" [attr.width]="50"
+    [attr.x]="wall.ruler.inputPositionPoint.x" [attr.y]="wall.ruler.inputPositionPoint.y" attr.transform="
       rotate(
-        {{ wall.ruler.getInputVector(10).angle }},
+        {{ wall.ruler.getInputVector(10, 25).angle }},
         {{ wall.ruler.inputPositionPoint.x }},
         {{ wall.ruler.inputPositionPoint.y }}
       )
     ">
-    <input
-      type="text"
-      [value]="wall.innerLine.length| number:'1.0-0'"
-      (click)="onClickInput(wall)"
-    >
+    <input #input type="text" [value]="wall.innerLine.length| number:'1.0-0'" (click)="onClickInput(wall)"
+      (blur)="onBlurInput(wall)">
     <div *ngIf="wall.isInputMode">
-      <div id="direction" class="panel">aaa</div>
-      <div id="ok" class="panel">aaa</div>
-      <div id="add" class="panel">aaa</div>
-      <div id="direction-add" class="panel">aaa</div>
+      <div id="direction" class="panel">
+        <mat-icon>keyboard_arrow_left</mat-icon><mat-icon>keyboard_arrow_right</mat-icon></div>
+      <div id="ok" class="panel">
+        <mat-icon (mousedown)="onClose(wall)">close</mat-icon>
+        <mat-icon (mousedown)="onDone(i, input)">done</mat-icon>
+      </div>
       <div *ngIf="!wall.isInputMode" class="wall-value">{{wall.innerLine.length| number:'1.0-0'}}</div>
     </div>
   </foreignObject>

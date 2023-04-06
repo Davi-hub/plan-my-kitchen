@@ -1,4 +1,3 @@
-import { Point } from "paper/dist/paper-core";
 import { Line } from "./line";
 import { Ruler } from "./ruler";
 
@@ -53,5 +52,4 @@ export class Wall {
   setRuler() {
     this.ruler = new Ruler(this.innerLine);
   }
-
 }
