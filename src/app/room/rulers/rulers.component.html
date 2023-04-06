@@ -1,0 +1,26 @@
+<svg:g>
+  <foreignObject *ngFor="let wall of walls" [attr.height]="125" [attr.width]="50" [attr.x]="wall.ruler.inputPositionPoint.x"
+    [attr.y]="wall.ruler.inputPositionPoint.y" attr.transform="
+      rotate(
+        {{ wall.ruler.getInputVector(10).angle }},
+        {{ wall.ruler.inputPositionPoint.x }},
+        {{ wall.ruler.inputPositionPoint.y }}
+      )
+    ">
+    <input
+      type="text"
+      [value]="wall.innerLine.length| number:'1.0-0'"
+      (click)="onClickInput(wall)"
+    >
+    <div *ngIf="wall.isInputMode">
+      <div id="direction" class="panel">aaa</div>
+      <div id="ok" class="panel">aaa</div>
+      <div id="add" class="panel">aaa</div>
+      <div id="direction-add" class="panel">aaa</div>
+      <div *ngIf="!wall.isInputMode" class="wall-value">{{wall.innerLine.length| number:'1.0-0'}}</div>
+    </div>
+  </foreignObject>
+  <path *ngFor="let wall of walls" [attr.d]="wall.ruler.drawRuler(20)" stroke="black" fill="none"></path>
+</svg:g>
+
+<!-- (change)="roomService.BC.length=+inputAB.value;" -->

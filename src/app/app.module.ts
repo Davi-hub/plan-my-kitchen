@@ -3,22 +3,24 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SquareRoomComponent } from './square-room/square-room.component';
-import { SquareRoomWallsComponent } from './square-room/square-room-walls/square-room-walls.component';
-import { SquareRoomRulersComponent } from './square-room/square-room-rulers/square-room-rulers.component';
-import { SquareRoomResizeComponent } from './square-room/square-room-resize/square-room-resize.component';
+import { RoomComponent } from './room/room.component';
+import { WallsComponent } from './room/walls/walls.component';
+import { RulersComponent } from './room/rulers/rulers.component';
+import { ResizeComponent } from './room/resize/resize.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SquareRoomComponent,
-    SquareRoomWallsComponent,
-    SquareRoomRulersComponent,
-    SquareRoomResizeComponent
+    RoomComponent,
+    WallsComponent,
+    RulersComponent,
+    ResizeComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

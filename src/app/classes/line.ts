@@ -18,7 +18,7 @@ export class Line {
     this.angleV = this.v.angle;
     this.angleN = this.n.angle;
     this.a = this.n.x;
-    this.b = -this.n.y;
+    this.b = this.n.y;
     this.c = -((this.a * this.P1.x) + (this.b * this.P1.y));
     this.inputPositionPoint = this.getInputVector(10).point;
   }

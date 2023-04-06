@@ -1,12 +1,12 @@
 import { Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { SquareRoomService } from '../square-room.service';
+import { RoomService } from '../room.service';
 
 @Component({
-  selector: '[app-square-room-resize]',
-  templateUrl: './square-room-resize.component.html',
-  styleUrls: ['./square-room-resize.component.css']
+  selector: '[app-resize]',
+  templateUrl: './resize.component.html',
+  styleUrls: ['./resize.component.css']
 })
-export class SquareRoomResizeComponent implements OnInit {
+export class ResizeComponent implements OnInit {
   @ViewChild('svgEl', { static: true })
   svgElRef!: ElementRef<SVGElement>;
   svgEl!: SVGElement;
@@ -16,7 +16,7 @@ export class SquareRoomResizeComponent implements OnInit {
   private mouseMoveListener: (() => void) | undefined;
   private isDragging = false;
 
-  constructor(private renderer: Renderer2, public squareRoomService: SquareRoomService) { }
+  constructor(private renderer: Renderer2, public roomService: RoomService) { }
 
   ngOnInit(): void {
     this.svgEl = this.svgElRef.nativeElement;
@@ -54,7 +54,7 @@ export class SquareRoomResizeComponent implements OnInit {
           point.x = touch.pageX-this.svgElArr[0];
           point.y = touch.pageY-this.svgElArr[1];
         }
-        this.squareRoomService.reDrawSubject.next("");
+        this.roomService.reDrawSubject.next("");
       }
     });
   }

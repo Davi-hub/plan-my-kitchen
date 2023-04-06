@@ -1,0 +1,7 @@
+<div id="container" *ngIf="isLoaded">
+  <svg width="1000" height="1000">
+    <g app-walls [walls]="walls"></g>
+    <g app-rulers [walls]="walls"></g>
+    <g app-resize></g>
+  </svg>
+</div>
