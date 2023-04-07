@@ -1,5 +1,6 @@
 <svg:g>
-  <foreignObject *ngFor="let wall of walls, let i = index" [attr.height]="125" [attr.width]="50"
+  <path *ngFor="let wall of walls" [attr.d]="wall.ruler.drawRuler(20)" stroke="black" fill="none"></path>
+  <foreignObject #fObj *ngFor="let wall of walls, let i = index" [attr.height]="50" [attr.width]="50"
     [attr.x]="wall.ruler.inputPositionPoint.x" [attr.y]="wall.ruler.inputPositionPoint.y" attr.transform="
       rotate(
         {{ wall.ruler.getInputVector(10, 25).angle }},
@@ -7,19 +8,16 @@
         {{ wall.ruler.inputPositionPoint.y }}
       )
     ">
-    <input #input type="text" [value]="wall.innerLine.length| number:'1.0-0'" (click)="onClickInput(wall)"
-      (blur)="onBlurInput(wall)">
     <div *ngIf="wall.isInputMode">
-      <div id="direction" class="panel">
-        <mat-icon>keyboard_arrow_left</mat-icon><mat-icon>keyboard_arrow_right</mat-icon></div>
       <div id="ok" class="panel">
-        <mat-icon (mousedown)="onClose(wall)">close</mat-icon>
+        <mat-icon (mousedown)="onClose()">close</mat-icon>
         <mat-icon (mousedown)="onDone(i, input)">done</mat-icon>
       </div>
       <div *ngIf="!wall.isInputMode" class="wall-value">{{wall.innerLine.length| number:'1.0-0'}}</div>
     </div>
+    <input #input type="text" [value]="wall.innerLine.length| number:'1.0-0'" (click)="onClickInput(wall, fObj)"
+      (blur)="onBlurInput()">
   </foreignObject>
-  <path *ngFor="let wall of walls" [attr.d]="wall.ruler.drawRuler(20)" stroke="black" fill="none"></path>
 </svg:g>
 
 <!-- (change)="roomService.BC.length=+inputAB.value;" -->
