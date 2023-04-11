@@ -9,6 +9,7 @@ import { RoomService } from '../room.service';
 })
 export class RulersComponent implements AfterViewInit {
   @Input() walls!: Wall[];
+  @Input() scale!: number;
   inputAngle!: number;
 
   constructor(public roomService: RoomService, private cdr: ChangeDetectorRef) { }

@@ -1,4 +1,5 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Wall } from '../classes/wall';
 import { HelpersService } from '../shared/helpers.service';
 import { RoomService } from './room.service';
@@ -8,20 +9,38 @@ import { RoomService } from './room.service';
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.css']
 })
-export class RoomComponent implements OnInit {
+export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
   isLoaded = false;
   walls: Wall[] = [];
+  width!: number;
+  height: number;
+  viewBox!: string;
+  scale = 1;
+  upDown = 0;
+  leftRight = 0;
+  reDrawSubs!: Subscription;
 
 
-  constructor(public roomService: RoomService, private helperService: HelpersService) {
+  constructor(public roomService: RoomService, private helperService: HelpersService, private cd: ChangeDetectorRef) {
     this.drawWalls();
+    this.width = window.innerWidth;
+    this.height = window.innerHeight;
+    this.viewBox = this.getViewBox();
   }
 
   ngOnInit(): void {
     this.isLoaded = true;
-    this.roomService.reDrawSubject.subscribe((x) => {
+    this.reDrawSubs = this.roomService.reDrawSubject.subscribe((x) => {
       this.drawWalls();
     });
+  }
+
+  ngAfterViewInit(): void {
+
+  }
+
+  ngOnDestroy(): void {
+      this.reDrawSubs.unsubscribe();
   }
 
   drawWalls() {
@@ -54,4 +73,24 @@ export class RoomComponent implements OnInit {
       walls[j].reSetWall();
     }
   }
+
+  zoom(value: number) {
+    this.scale = this.scale + value;
+    this.viewBox = this.getViewBox();
+  }
+
+  moveLeftRight(value: number) {
+    this.leftRight += value;
+    this.viewBox = this.getViewBox();
+  }
+
+  moveUpDown(value: number) {
+    this.upDown += value;
+    this.viewBox = this.getViewBox();
+  }
+
+  getViewBox() {
+    return this.leftRight + " " + this.upDown + " " +  1/this.scale * this.width + " " + 1/this.scale * this.height;
+  }
+
 }

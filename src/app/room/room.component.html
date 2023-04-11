@@ -1,7 +1,15 @@
 <div id="container" *ngIf="isLoaded">
-  <svg width="1000" height="1000">
+  <svg [attr.width]="width*10" [attr.height]="height*10" [attr.viewBox]="viewBox">
     <g app-walls [walls]="walls"></g>
-    <g app-rulers [walls]="walls"></g>
-    <g app-resize></g>
+    <g app-rulers [walls]="walls" [scale]="scale"></g>
+    <g app-resize [scale]="scale" [UpDown]="upDown" [leftRight]="leftRight"></g>
   </svg>
+</div>
+<div id="panel">
+  <button (click)="zoom(0.1)">+</button>
+  <button (click)="zoom(-0.1)">-</button>
+  <button (click)="moveLeftRight(10)"><mat-icon>keyboard_arrow_left</mat-icon></button>
+  <button (click)="moveLeftRight(-10)"><mat-icon>keyboard_arrow_right</mat-icon></button>
+  <button (click)="moveUpDown(10)"><mat-icon>keyboard_arrow_up</mat-icon></button>
+  <button (click)="moveUpDown(-10)"><mat-icon>keyboard_arrow_down</mat-icon></button>
 </div>

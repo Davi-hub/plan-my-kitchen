@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { RoomService } from '../room.service';
 
 @Component({
@@ -15,6 +15,11 @@ export class ResizeComponent implements OnInit {
   isDraggingPoint = false;
   private mouseMoveListener: (() => void) | undefined;
   private isDragging = false;
+  startX!: number;
+  startY!: number;
+  @Input() scale!: number;
+  @Input() UpDown!: number;
+  @Input() leftRight!: number;
 
   constructor(private renderer: Renderer2, public roomService: RoomService) { }
 
@@ -24,6 +29,8 @@ export class ResizeComponent implements OnInit {
 
   onMouseDown(event: MouseEvent, point: paper.Point) {
     event.preventDefault();
+    this.startX = event.clientX;
+    this.startY = event.clientY;
     this.isDragging = true;
     this.activateMoveListener('mousemove', point);
   }
@@ -47,8 +54,8 @@ export class ResizeComponent implements OnInit {
         if (moveType == 'mousemove') {
           console.log(event);
           console.log(this.svgElArr);
-          point.x = event.pageX-this.svgElArr[0];
-          point.y = event.pageY-this.svgElArr[1];
+          point.x = event.pageX*(1/this.scale)+this.leftRight;
+          point.y = event.pageY*(1/this.scale)+this.UpDown;
         } else {
           const touch = event.touches[0];
           point.x = touch.pageX-this.svgElArr[0];
