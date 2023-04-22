@@ -1,3 +1,17 @@
 <svg:g>
-  <polygon *ngFor="let wall of walls, let i = index" [attr.points]="wall.wall" (click)="onClickWall(i)"/>
+  <polygon
+    *ngFor="let wall of walls, let i = index" [attr.points]="wall.wall"
+    [matMenuTriggerFor]="menu"
+    [matMenuTriggerData]="{i: i}"/>
 </svg:g>
+<mat-menu #menu="matMenu">
+  <ng-template matMenuContent let-i="i">
+    <button mat-menu-item (click)="onAddWall(i)">
+      <span>Add wall</span>
+    </button>
+    <button mat-menu-item (click)="onDeleteWall(i)">
+      <span>Delete wall</span>
+    </button>
+  </ng-template>
+</mat-menu>
+

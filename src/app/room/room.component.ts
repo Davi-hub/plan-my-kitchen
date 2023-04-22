@@ -50,7 +50,6 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.svgEl = this.svgElRef.nativeElement;
     this.reDrawSubs = this.roomService.reDrawSubject.subscribe((x) => {
       this.drawWalls();
-      this.drawWalls();
     });
   }
 
@@ -59,7 +58,7 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      this.reDrawSubs.unsubscribe();
+    this.reDrawSubs.unsubscribe();
   }
 
   drawWalls() {
@@ -73,6 +72,7 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.reCalcOuterPoints(newWalls);
     this.walls = newWalls;
+    this.roomService.reDrawAnglesSubject.next(this.walls);
   }
 
   reCalcOuterPoints(walls: Wall[]) {

@@ -1,0 +1,16 @@
+.angle-group:hover .angle {
+  stroke-width: 4;
+  cursor: pointer;
+}
+
+input {
+  width: 42px;
+  margin: 0;
+  text-align: center;
+}
+
+.panel {
+  background-color: rgb(203, 203, 203);
+  width: 100%;
+  height: 25px;
+}

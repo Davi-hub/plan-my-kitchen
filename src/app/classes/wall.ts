@@ -10,7 +10,7 @@ export class Wall {
   ruler!: Ruler;
   isInputMode = false;
 
-  constructor(private startPoint: paper.Point, private endPoint: paper.Point) {
+  constructor(public startPoint: paper.Point, public endPoint: paper.Point) {
     this.setWall();
   }
 

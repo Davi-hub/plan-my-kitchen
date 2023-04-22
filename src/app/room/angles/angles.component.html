@@ -1,6 +1,31 @@
 <svg:g *ngIf="isLoaded">
   <g *ngFor="let angle of angleArray, let i = index">
-    <path [attr.d]="angle.str" fill="red"/>
-    <text [attr.x]="angle.point.x" [attr.y]="angle.point.y" font-size="24" fill="black">{{angle.deg}}</text>
-  </g>
+    <g class="angle-group" (click)="angle.inputMode=true">
+      <path class="angle" [attr.d]="angle.str" fill="#efefef" stroke="black"/>
+      <text
+        [attr.x]="angle.circleCenter.x"
+        [attr.y]="angle.circleCenter.y"
+        text-anchor="middle"
+        alignment-baseline="middle"
+        font-size="12"
+        fill="black">
+        {{angle.deg}}&deg;
+      </text>
+    </g>
+    <foreignObject *ngIf="angle.inputMode" [attr.height]="50" [attr.width]="50"
+    [attr.x]="angle.circleCenter.x+10" [attr.y]="angle.circleCenter.y+10">
+    <input
+    #input
+    type="text"
+    [value]="angle.deg"
+    >
+    <div>
+      <div id="ok" class="panel">
+        <mat-icon (click)="angle.inputMode=false">close</mat-icon>
+        <mat-icon (click)="onDone(i, +input.value)">done</mat-icon>
+      </div>
+      <!-- <div *ngIf="!wall.isInputMode" class="wall-value">{{wall.innerLine.length| number:'1.0-0'}}</div> -->
+    </div>
+  </foreignObject>
+</g>
 </svg:g>

@@ -9,6 +9,7 @@ import { HelpersService } from '../shared/helpers.service';
 export class RoomService {
   pointArray = [new Point(100,100),new Point(600,100),new Point(600,600),new Point(350,850),new Point(100,600)]
   reDrawSubject = new Subject();
+  reDrawAnglesSubject = new Subject();
 
 
   constructor(private helpersService: HelpersService) { }
