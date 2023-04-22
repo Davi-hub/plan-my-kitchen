@@ -18,7 +18,8 @@ export class RulersComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  onClickInput(wall: Wall, forObj: HTMLElement) {
+  onClickInput(wall: Wall, forObj: HTMLElement, event: Event) {
+    event.stopPropagation();
     wall.isInputMode = true;
     console.log(forObj);
     forObj.setAttribute(
@@ -27,7 +28,8 @@ export class RulersComponent implements AfterViewInit {
     );
   }
 
-  onBlurInput() {
+  onBlurInput(event: FocusEvent) {
+    event.stopPropagation();
     this.onClose()
   }
 

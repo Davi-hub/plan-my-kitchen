@@ -60,6 +60,9 @@ export class Ruler {
     let p: paper.Point = this.baseLine.P1.clone().add(vector);
 
     let vector2 = this.baseLine.v;
+    if (this.baseLine.length/2 < space) {
+      space = 0;
+    }
     vector2.length = (this.baseLine.length/2 - space);
     let inputPoint: paper.Point = p.clone().add(vector2);
     return {point: inputPoint, angle: vector2.angle};

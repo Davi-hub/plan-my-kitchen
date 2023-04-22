@@ -1,0 +1,6 @@
+<svg:g *ngIf="isLoaded">
+  <g *ngFor="let angle of angleArray, let i = index">
+    <path [attr.d]="angle.str" fill="red"/>
+    <text [attr.x]="angle.point.x" [attr.y]="angle.point.y" font-size="24" fill="black">{{angle.deg}}</text>
+  </g>
+</svg:g>

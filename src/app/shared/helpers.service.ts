@@ -9,10 +9,19 @@ export class HelpersService {
 
   constructor() { }
 
+
   getIntersection(L1: Line, L2: Line) {
-    let x = (L1.b * L2.c - L2.b * L1.c) / (L1.a * L2.b - L2.a * L1.b);
-    let y = (L1.c * L2.a - L2.c * L1.a) / (L1.a * L2.b - L2.a * L1.b);
-    let m = new Point(x, y);
+    const rawDenominator = L1.a * L2.b - L2.a * L1.b;
+    const roundedDenominator = parseFloat(rawDenominator.toFixed(4));
+
+    if (roundedDenominator === 0) {
+      // A két egyenes párhuzamos vagy egybeeső.
+      return null;
+    }
+
+    const x = (L1.b * L2.c - L2.b * L1.c) / roundedDenominator;
+    const y = (L1.c * L2.a - L2.c * L1.a) / roundedDenominator;
+    const m = new Point(x, y);
     return m;
   }
 

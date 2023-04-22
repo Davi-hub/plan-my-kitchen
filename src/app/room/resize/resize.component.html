@@ -1,5 +1,6 @@
 <svg:g id="svgEl" #svgEl>
   <circle *ngFor="let pointInService of roomService.pointArray" attr.cx="{{pointInService.x}}" attr.cy="{{pointInService.y}}" r="8"
+  #circle
   draggable="true"
   (mousedown)="onMouseDown($event, pointInService)"
   (mouseup)="onMouseUp()"

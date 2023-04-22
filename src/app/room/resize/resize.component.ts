@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, Input, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { RoomService } from '../room.service';
 
 @Component({
@@ -6,31 +6,35 @@ import { RoomService } from '../room.service';
   templateUrl: './resize.component.html',
   styleUrls: ['./resize.component.css']
 })
+
 export class ResizeComponent implements OnInit {
   @ViewChild('svgEl', { static: true })
   svgElRef!: ElementRef<SVGElement>;
+  @ViewChildren('circle') circles!: QueryList<ElementRef>
   svgEl!: SVGElement;
   svgElArr!: number[];
   draggingPoint: paper.Point | null = null;
   isDraggingPoint = false;
-  private mouseMoveListener: (() => void) | undefined;
-  private isDragging = false;
-  startX!: number;
-  startY!: number;
+  mouseMoveListener: (() => void) | undefined;
+  isDragging = false;
+  // startX!: number;
+  // startY!: number;
   @Input() scale!: number;
-  @Input() UpDown!: number;
+  @Input() upDown!: number;
   @Input() leftRight!: number;
 
   constructor(private renderer: Renderer2, public roomService: RoomService) { }
 
   ngOnInit(): void {
+
     this.svgEl = this.svgElRef.nativeElement;
   }
 
   onMouseDown(event: MouseEvent, point: paper.Point) {
     event.preventDefault();
-    this.startX = event.clientX;
-    this.startY = event.clientY;
+    event.stopPropagation();
+    // this.startX = event.clientX;
+    // this.startY = event.clientY;
     this.isDragging = true;
     this.activateMoveListener('mousemove', point);
   }
@@ -55,11 +59,11 @@ export class ResizeComponent implements OnInit {
           console.log(event);
           console.log(this.svgElArr);
           point.x = event.pageX*(1/this.scale)+this.leftRight;
-          point.y = event.pageY*(1/this.scale)+this.UpDown;
+          point.y = event.pageY*(1/this.scale)+this.upDown;
         } else {
           const touch = event.touches[0];
-          point.x = touch.pageX-this.svgElArr[0];
-          point.y = touch.pageY-this.svgElArr[1];
+          point.x = touch.pageX*(1/this.scale)+this.leftRight;
+          point.y = touch.pageY*(1/this.scale)+this.upDown;
         }
         this.roomService.reDrawSubject.next("");
       }

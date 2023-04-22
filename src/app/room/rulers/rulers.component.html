@@ -15,9 +15,13 @@
       </div>
       <!-- <div *ngIf="!wall.isInputMode" class="wall-value">{{wall.innerLine.length| number:'1.0-0'}}</div> -->
     </div>
-    <input #input type="text" [ngStyle]="{'font-size': 14*(1/scale) + 'px', 'width': 40*(1/scale) + 'px', 'heigth': 12*(1/scale) + 'px', 'border': 1*(1/scale) + 'px solid black'}" [value]="wall.innerLine.length| number:'1.0-0'" (click)="onClickInput(wall, fObj)"
-      (blur)="onBlurInput()">
-  </foreignObject>
-</svg:g>
-
-<!-- (change)="roomService.BC.length=+inputAB.value;" -->
+    <input
+      #input
+      type="text"
+      [ngStyle]="{'font-size': 14*(1/scale) + 'px', 'width': 40*(1/scale) + 'px', 'heigth': 12*(1/scale) + 'px', 'border': 1*(1/scale) + 'px solid black'}"
+      [value]="wall.innerLine.length| number:'1.0-0'"
+      (click)="onClickInput(wall, fObj, $event)"
+      >
+    </foreignObject>
+  </svg:g>
+  <!-- (blur)="onBlurInput($event)" -->

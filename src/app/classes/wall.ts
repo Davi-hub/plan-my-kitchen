@@ -28,15 +28,13 @@ export class Wall {
 
   getOuterStartPoint() {
     const norm = this.innerLine.n.clone().multiply(10);
-    const dir = this.innerLine.v.clone().normalize().multiply(-10);
-    const newPoint = this.startPoint.clone().add(norm).add(dir);
+    const newPoint = this.startPoint.clone().add(norm);
     return newPoint;
   }
 
   getOuterEndPoint() {
     const norm = this.innerLine.n.clone().multiply(10);
-    const dir = this.innerLine.v.clone().normalize().multiply(10);
-    const newPoint = this.endPoint.clone().add(norm).add(dir);
+    const newPoint = this.endPoint.clone().add(norm);
     return newPoint;
   }
 
