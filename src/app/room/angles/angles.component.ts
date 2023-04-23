@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Point } from 'paper/dist/paper-core';
 import { Line } from 'src/app/classes/line';
 import { Wall } from 'src/app/classes/wall';
+import { AngleObject } from 'src/app/interfaces/angle-object';
 import { RoomService } from '../room.service';
 
 @Component({
@@ -13,7 +14,7 @@ import { RoomService } from '../room.service';
 export class AnglesComponent implements OnInit{
   @Input() walls!: Wall[];
   points!: string[];
-  angleArray!: any[];
+  angleArray!: AngleObject[];
   isLoaded = false;
 
   constructor(private roomService: RoomService) {
@@ -30,7 +31,14 @@ export class AnglesComponent implements OnInit{
   }
 
   getAngles() {
-    const angleArray = [];
+    const angleObjectArray: AngleObject[] = [];
+    this.creatreAngleObjArr(angleObjectArray);
+    this.correctAngles(angleObjectArray);
+    this.finalCalcsAngleObjArr(angleObjectArray);
+    return angleObjectArray;
+  }
+
+  creatreAngleObjArr (arr: any[]) {
     for (let i = 0; i < this.walls.length; i++) {
       let j = i - 1;
       if (j === -1) j = this.walls.length - 1;
@@ -42,49 +50,97 @@ export class AnglesComponent implements OnInit{
       const startPointsVector = nextWall.P1.subtract(currentWall.P1);
 
       const dotProduct = normal.dot(startPointsVector);
-      const isConcave = dotProduct > 0;
+      const isConcave = dotProduct >= 0;
 
       const pointZero = currentWall.P1;
       const pointOne = pointZero.clone().add(currentWall.v.clone().normalize().multiply(40));
       const pointTwo = pointZero.clone().add(nextWall.v.clone().normalize().multiply(-40));
-      const cosAngle = currentWall.v.dot(nextWall.v) / (currentWall.v.length * nextWall.v.length);
-      const angleRadians = Math.acos(cosAngle);
+      const cosAngle = Math.max(Math.min(currentWall.v.dot(nextWall.v) / (currentWall.v.length * nextWall.v.length), 1), -1);
 
-      let angleDegrees = parseFloat(((angleRadians * (180 / Math.PI))).toFixed(1));
+      let angleRadians = Math.acos(cosAngle);
+      angleRadians = Math.max(Math.min(angleRadians, Math.PI), 0);
 
+      if (isConcave) {
+        angleRadians = Math.PI + angleRadians;
+      } else {
+        angleRadians = Math.PI - angleRadians;
+      }
+
+      let rawDeg = parseFloat(((angleRadians * (180 / Math.PI))).toFixed(10));
+      let roundedDeg = parseFloat(((angleRadians * (180 / Math.PI))).toFixed(0));
+
+
+      arr.push(
+        {
+          isConcave: isConcave,
+          pointZero: pointZero,
+          pointOne: pointOne,
+          pointTwo: pointTwo,
+          rawDeg: rawDeg,
+          roundedDeg: roundedDeg,
+          str: '',
+          circleCenter: undefined,
+          inputMode: false
+        }
+        );
+    }
+  }
+
+  correctAngles(arr: any[]) {
+    let sum = 0;
+    const correctSum = (arr.length-2)*180;
+    for (let i = 0; i < arr.length; i++) {
+      sum = sum + arr[i].roundedDeg;
+    }
+    if (sum != correctSum) {
+      const tempArray = [];
+      for (let i = 0; i < arr.length; i++) {
+        let num = Math.abs(arr[i].rawDeg - arr[i].roundedDeg);
+        tempArray.push(num);
+      }
+      const index = tempArray.indexOf(Math.max(...tempArray));
+      if (sum < 540) arr[index].roundedDeg++;
+      if (sum > 540) arr[index].roundedDeg--;
+
+      console.log(sum);
+      console.log(tempArray);
+      console.log(arr);
+    }
+  }
+
+  finalCalcsAngleObjArr(arr: any[]) {
+    for (let i = 0; i < arr.length; i++) {
       let arcType = 0;
       let textPointVector = 20;
 
-      if (isConcave) {
-        angleDegrees = 180 + angleDegrees;
+      if (arr[i].isConcave) {
         arcType = 1;
         textPointVector = -20;
-      } else {
-        angleDegrees = 180 - angleDegrees;
       }
 
-      const str = "M" + pointZero.x + "," + pointZero.y + " L" + pointOne.x + "," + pointOne.y + " A40,40 0 " + arcType + ",1 " + pointTwo.x + "," + pointTwo.y + " Z";
+      const str: string = "M" + arr[i].pointZero.x + "," + arr[i].pointZero.y + " L" + arr[i].pointOne.x + "," + arr[i].pointOne.y + " A40,40 0 " + arcType + ",1 " + arr[i].pointTwo.x + "," + arr[i].pointTwo.y + " Z";
 
-      const middlePoint = pointOne.add(pointTwo).divide(2);
-      const bisector = new Line(pointZero, middlePoint);
-      let textPoint = pointZero.add(bisector.v.normalize().multiply(textPointVector));
+      const middlePoint = arr[i].pointOne.add(arr[i].pointTwo).divide(2);
+      let pointZero: paper.Point = arr[i].pointZero;
+      let bisector = new Line(pointZero, middlePoint);
+      if(bisector.length == 0) bisector = new Line(pointZero, pointZero.add(this.walls[i].innerLine.n));
 
-      angleArray.push(
-        { str: str,
-          deg: angleDegrees,
-          circleCenter: textPoint,
-          inputMode: false
-        }
-      );
+      let textPoint: any = arr[i].pointZero.add(bisector.v.normalize().multiply(textPointVector));
+
+      arr[i] = {
+        ...arr[i],
+        str: str,
+        circleCenter: textPoint,
+        inputMode: false
+      }
     }
-    return angleArray;
   }
 
   onDone(j: number, deg: number) {
     let i = j - 1;
     if (i === -1) i = this.roomService.pointArray.length - 1;
     const p1 = this.walls[j].startPoint;
-    const rotationAngleInDegrees = this.angleArray[j].deg-deg;
+    const rotationAngleInDegrees = this.angleArray[j].roundedDeg-deg;
 
 
     const rotatedWall = this.walls[j].innerLine.v.clone();

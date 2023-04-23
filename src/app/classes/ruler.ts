@@ -2,8 +2,10 @@ import { Line } from "./line";
 
 export class Ruler {
   inputPositionPoint;
+  textPositionPoint;
 
   constructor(private baseLine: Line) {
+    this.textPositionPoint = {...this.getInputVector(50, 0).point};
     this.inputPositionPoint = this.getInputVector(55, 25).point;
   }
 

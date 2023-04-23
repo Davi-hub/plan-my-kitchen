@@ -9,7 +9,7 @@
         alignment-baseline="middle"
         font-size="12"
         fill="black">
-        {{angle.deg}}&deg;
+        {{angle.roundedDeg}}&deg;
       </text>
     </g>
     <foreignObject *ngIf="angle.inputMode" [attr.height]="50" [attr.width]="50"
@@ -17,7 +17,7 @@
     <input
     #input
     type="text"
-    [value]="angle.deg"
+    [value]="angle.roundedDeg"
     >
     <div>
       <div id="ok" class="panel">

@@ -1,27 +1,45 @@
 <svg:g>
-  <path *ngFor="let wall of walls" [attr.d]="wall.ruler.drawRuler(20)" stroke="black" fill="none"></path>
-  <foreignObject #fObj *ngFor="let wall of walls, let i = index" [attr.height]="50*(1/scale)" [attr.width]="50*(1/scale)"
-    [attr.x]="wall.ruler.inputPositionPoint.x" [attr.y]="wall.ruler.inputPositionPoint.y" attr.transform="
-      rotate(
-        {{ wall.ruler.getInputVector(10, 25).angle }},
-        {{ wall.ruler.inputPositionPoint.x }},
-        {{ wall.ruler.inputPositionPoint.y }}
-      )
+  <g *ngFor="let wall of walls, let i = index">
+    <path [attr.d]="wall.ruler.drawRuler(20)" stroke="black" fill="none"></path>
+    <text
+      *ngIf="isEditMode === false"
+    [attr.x]="wall.ruler.textPositionPoint.x"
+    [attr.y]="wall.ruler.textPositionPoint.y"
+    text-anchor="middle"
+    alignment-baseline="middle"
+    font-size="18"
+    fill="black"
+    attr.transform="
+  rotate(
+    {{ wall.ruler.getInputVector(10, 25).angle }},
+    {{ wall.ruler.textPositionPoint.x }},
+    {{ wall.ruler.textPositionPoint.y }}
+    )
+    ">
+    {{wall.innerLine.length.toFixed(1)}} cm
+  </text>
+  <foreignObject *ngIf="isEditMode === true" #fObj [attr.height]="50*(1/scale)" [attr.width]="50*(1/scale)"
+  [attr.x]="wall.ruler.inputPositionPoint.x" [attr.y]="wall.ruler.inputPositionPoint.y" attr.transform="
+  rotate(
+    {{ wall.ruler.getInputVector(10, 25).angle }},
+    {{ wall.ruler.inputPositionPoint.x }},
+    {{ wall.ruler.inputPositionPoint.y }}
+    )
     ">
     <div *ngIf="wall.isInputMode">
       <div id="ok" class="panel">
         <mat-icon (mousedown)="onClose()">close</mat-icon>
         <mat-icon (mousedown)="onDone(i, input)">done</mat-icon>
       </div>
-      <!-- <div *ngIf="!wall.isInputMode" class="wall-value">{{wall.innerLine.length| number:'1.0-0'}}</div> -->
     </div>
     <input
-      #input
-      type="text"
-      [ngStyle]="{'font-size': 14*(1/scale) + 'px', 'width': 40*(1/scale) + 'px', 'heigth': 12*(1/scale) + 'px', 'border': 1*(1/scale) + 'px solid black'}"
-      [value]="wall.innerLine.length| number:'1.0-0'"
-      (click)="onClickInput(wall, fObj, $event)"
-      >
-    </foreignObject>
-  </svg:g>
-  <!-- (blur)="onBlurInput($event)" -->
+    #input
+    type="text"
+    [ngStyle]="{'font-size': 14*(1/scale) + 'px', 'width': 40*(1/scale) + 'px', 'heigth': 12*(1/scale) + 'px', 'border': 1*(1/scale) + 'px solid black'}"
+    [value]="wall.innerLine.length| number:'1.0-0'"
+    (click)="onClickInput(wall, fObj, $event)"
+    >
+  </foreignObject>
+</g>
+</svg:g>
+<!-- (blur)="onBlurInput($event)" -->

@@ -8,10 +8,28 @@ svg {
   height: 100%;
 }
 
-#panel {
+.step {
+  position: absolute;
+  top: 0;
+  right: 160px;
   display: flex;
-  flex-direction: column;
-  width: fit-content;
+  justify-content: center;
+  align-items: center;
+  width: 250px;
+  text-align: center;
+  background-color: rgb(247, 247, 247);
+  border: 2px solid rgb(207, 207, 207);
+  height: 46px;
+  margin: 7px;
+}
+
+#panel {
+  display: grid;
+  grid-template-columns: repeat(3, 50px);
+  grid-template-rows: repeat(3, 50px);
+  grid-gap: 5px;
+  margin: 5px;
+  justify-content: center;
   position: absolute;
   top: 0;
   right: 0;
@@ -23,4 +41,56 @@ button {
   width: 50px;
   height: 50px;
   margin: 2px;
+}
+
+.gap {
+  grid-row: 2;
+  grid-column: 2;
+  width: 50px;
+  height: 50px;
+}
+
+.button-1 {
+  grid-row: 3;
+  grid-column: 2;
+}
+
+.button-2 {
+  grid-row: 4;
+  grid-column: 1;
+}
+
+.button-3 {
+  grid-row: 4;
+  grid-column: 3;
+}
+
+.button-4 {
+  grid-row: 5;
+  grid-column: 2;
+}
+
+.button-5 {
+  grid-row: 6;
+  grid-column: 2;
+}
+
+.button-6 {
+  grid-row: 7;
+  grid-column: 2;
+}
+
+.button-7 {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.button-8 {
+  grid-row: 1;
+  grid-column: 2;
+}
+
+.button-9 {
+  grid-row: 1;
+  grid-column: 3;
 }

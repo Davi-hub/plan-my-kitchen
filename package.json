@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build-doc": "ng build --output-path=doc --base-href /plan-my-kitchen/"
   },
   "private": true,
   "dependencies": {
